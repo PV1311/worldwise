@@ -1,0 +1,40 @@
+{
+  "cities": [
+    {
+      "cityName": "Lisbon",
+      "country": "Portugal",
+      "emoji": "https://flagcdn.com/24x18/pt.png",
+      "date": "2027-10-31T15:59:59.138Z",
+      "notes": "My favorite city so far!",
+      "position": {
+        "lat": 38.727881642324164,
+        "lng": -9.140900099907554
+      },
+      "id": "73930385"
+    },
+    {
+      "cityName": "Madrid",
+      "country": "Spain",
+      "emoji": "https://flagcdn.com/24x18/es.png",
+      "date": "2027-07-15T08:22:53.976Z",
+      "notes": "",
+      "position": {
+        "lat": 40.46635901755316,
+        "lng": -3.7133789062500004
+      },
+      "id": "17806751"
+    },
+    {
+      "id": "d059",
+      "cityName": "Bamori",
+      "country": "India",
+      "emoji": "https://flagcdn.com/24x18/in.png",
+      "date": "2025-05-15T10:08:34.811Z",
+      "notes": "jgdjc",
+      "position": {
+        "lat": "24.81187466888425",
+        "lng": "77.01416015625001"
+      }
+    }
+  ]
+}
