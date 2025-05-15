@@ -3,8 +3,8 @@ import { createContext, useContext, useReducer } from "react";
 const AuthContext = createContext();
 
 const initialState = {
-  user: null, // contains user object
-  isAuthenticated: false, // stores whether the user is currently authenticated or not
+  user: null, 
+  isAuthenticated: false, 
 };
 
 function reducer(state, action) {
