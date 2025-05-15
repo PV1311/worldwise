@@ -39,11 +39,11 @@ export default function Login() {
       //
       // Now an important thing to note is to see what happens when we try to access the application without being logged in. So on clicking on Login button in Login
       // form, and then seeing the cities list and then reloading the page, this is what happens. So if try to just enter the /app/cities URL without first going through
-      // the login flow, then we get his error. So we need to prevent that by protecting our application against unauthorized access, whic is the 3rd part of typical
+      // the login flow, then we get this error. So we need to prevent that by protecting our application against unauthorized access, which is the 3rd part of typical
       // login flows in front end applications. So basically what we wanna do is to redirect the user back to the homepage, whenever they reach one of the routes that
       // they should not reach when they are not logged in, so really, the entire application should not be accessible to people who are not logged in. So we now have to
       // protect our routes. So now we create a specialized component that will handle this readirecting and then we will wrap the entire application in that component.
-      // So we do that as a page here and we create a ProtectedRoute,jsx file in the pages folder. Now that component just receive the entire application as children so
+      // So we do that as a page here and we create a ProtectedRoute.jsx file in the pages folder. Now that component just receive the entire application as children so
       // it just returns children without adding any JSX to the children. So if the user is not authenticated, then we navigate to Homepage and that's all we have to do.
       // (Code logic is in <ProtectedRoutes/> component in the ProtectedRoutes.jsx file). Now all we have to do is to wrap our application inside the <ProtectedRoutes/>
       // component and there are 2 places where we can do this and the first one is in the <AppLayout/> component. However it is a lot more explicit to do it in App.jsx

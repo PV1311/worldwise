@@ -15,9 +15,9 @@ function ProtectedRoutes({ children }) {
   );
 
   return isAuthenticated ? children : null; // watch lec 240. Adding Fake Authentication: Protecting a Route if not understood. Now, without this conditional redering,
-  //                                           if we just returned children, then once we are in //app/cities right after login, then if we reload the page, we still get
+  //                                           if we just returned children, then once we are in /app/cities right after login, then if we reload the page, we still get
   //                                           white screen and we see in errors that we are sill trying to read something out of the avatar in the <User/> component
-  //                                          which means that the <Uesr/> component is still trying to be rendered. So we now try to understand why this happens. So our
+  //                                          which means that the <User/> component is still trying to be rendered. So we now try to understand why this happens. So our
   //                                           effect here is only executed after the component has already been rendered. So our component will actually initially
   //                                           render the children(in case we had only written return children) which does ofcourse include the user, so then everything
   //                                           that the user is trying to read from the user object does not exist. So that's why we get this error. So right after that

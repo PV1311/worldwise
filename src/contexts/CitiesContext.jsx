@@ -4,6 +4,7 @@ import {
   useEffect,
   useContext,
   useReducer,
+  useCallback,
 } from "react";
 
 const BASE_URL = "http://localhost:9000";
@@ -109,25 +110,48 @@ function CitiesProvider({ children }) {
   //   }
   // }
 
-  async function getCity(id) {
-    if (Number(id) === currentCity) return; // here we check if the id that is being passed in is the same as the currentCity and so we can check is the city that we
-    //                                         want to load is already the current city and so if it is, there is no need to call the API again. Here id is converted to
-    //                                         Number because it is coming from URL so it is a string
+  // async function getCity(id) {
+  //   if (Number(id) === currentCity.id) return; // here we check if the id that is being passed in is the same as the currentCity and so we can check is the city that
+  //   //                                            we want to load is already the current city and so if it is, there is no need to call the API again. Here id is
+  //   //                                            converted to Number because it is coming from URL so it is a string
 
-    dispatch({ type: "loading" });
+  //   dispatch({ type: "loading" });
 
-    try {
-      const res = await fetch(`${BASE_URL}/cities/${id}`);
-      const data = await res.json();
+  //   try {
+  //     const res = await fetch(`${BASE_URL}/cities/${id}`);
+  //     const data = await res.json();
 
-      dispatch({ type: "city/loaded", payload: data });
-    } catch {
-      dispatch({
-        type: "rejected",
-        payload: "There was an error loading the city...",
-      });
-    }
-  }
+  //     dispatch({ type: "city/loaded", payload: data });
+  //   } catch {
+  //     dispatch({
+  //       type: "rejected",
+  //       payload: "There was an error loading the city...",
+  //     });
+  //   }
+  // }
+
+  const getCity = useCallback(
+    async function getCity(id) {
+      if (Number(id) === currentCity.id) return; // here we check if the id that is being passed in is the same as the currentCity and so we can check is the city that we
+      //                                            want to load is already the current city and so if it is, there is no need to call the API again. Here id is converted to
+      //                                            Number because it is coming from URL so it is a string
+
+      dispatch({ type: "loading" });
+
+      try {
+        const res = await fetch(`${BASE_URL}/cities/${id}`);
+        const data = await res.json();
+
+        dispatch({ type: "city/loaded", payload: data });
+      } catch {
+        dispatch({
+          type: "rejected",
+          payload: "There was an error loading the city...",
+        });
+      }
+    },
+    [currentCity.id]
+  );
 
   // async function createCity(newCity) {
   //   try {

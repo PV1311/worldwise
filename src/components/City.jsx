@@ -48,10 +48,15 @@ function City() {
     function () {
       getCity(id);
     },
-    [id]
+    [id, getCity] // Now we get a warning that we should include the getCity() function there. But this created like an infinite loop of HTTP requests to our API on
+    //               clicking on a city from the cities list.Now if we put getCity() in the dependency array, the effect will run each time that getCity() function gets
+    //               updated(or in other words, it gets recreated). Now this getCity() function lives inside <CitiesProvider/> but the problem is that the getCity()
+    //               function will update the state each time that it is executed which will then end up in an infinite loop. So to fix this, the solution is not to
+    //               remove it from the dependecy array but to make it stable. So we need to not be recreated on every re-render So we do that using useCallback() hook
+    //               in the <CitiesProvider/> component in CitiesContext.jsx file. This fixes the problem.
   );
 
-  // Now. when we select a city and the city opens, and we go back, we want the border of the city that was selected to be highlighted. So we do that in the <CityItem/>
+  // Now, when we select a city and the city opens, and we go back, we want the border of the city that was selected to be highlighted. So we do that in the <CityItem/>
   // component where we conditionally render the .cityItem--active class in the <Link/>. Remeber if we want to add multiple class names with css modules, we need to do
   // so in a string, so we use template literal there. So now as we get the currentCity state here, we get it there too and if the city id over there is equal to
   // currentCity.id, then we render the .cityItem--active

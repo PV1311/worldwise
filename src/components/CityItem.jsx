@@ -12,9 +12,9 @@ const formatDate = (date) =>
 function CityItem({ city }) {
   //   console.log(city);
 
-  const { currentCity, deleteCity } = useCities(); // if currentCity.id(that is the id of the selected city) is equal to city id(which is just below), we will conditionally render
-  //                                   .cityItem--active class in the <Link/> component here. We do so because after we select a city and the city opens and we come,
-  //                                   back then we want the border of the selected city to be highlighted.
+  const { currentCity, deleteCity } = useCities(); // if currentCity.id(that is the id of the selected city) is equal to city id(which is just below), we will
+  //                                                  conditionally render .cityItem--active class in the <Link/> component here. We do so because after we select a city
+  //                                                  and the city opens and we come, back then we want the border of the selected city to be highlighted.
 
   // We also want a button to come back, just like we have in <Form/> component, So now we take the back button from the form and put it in a separate <BackButton/>
   // component and import it in both the <Form/> component and <City/> component
@@ -27,11 +27,11 @@ function CityItem({ city }) {
   // is that by clicking on the cross button, we are at the same time also clicking on the link. So we need to prevent that from happening first. So we create a
   // handleClick() handler function and pass it in onClick prop and in the handleClick() function, we call e.preventDefault(). Now in the handleClick() function, we call
   // the function that will delete the item and since this is again about our cities data we go back to CitiesContext.JSX and in the CitiesProvider() function we create
-  // another function called deleteCity() and there we receive the id and then we submit a request to the URL with that id insife fetch() and there the method is going to
+  // another function called deleteCity() and there we receive the id and then we submit a request to the URL with that id inside fetch() and there the method is going to
   // be "DELETE" and nothing else is needed in the options object. We then pass the deleteCity() function into our context, and above where we get currentCity from the
   // context, we also get deleteCity() there and then we call deleteCity() with the current id in the handleClick() handler function
   //
-  // After all this, we now change our state management in CitiesContext.jsx to a useReducer. Now there, reducer function needs to be pure so ewe cannot fetch data in
+  // After all this, we now change our state management in CitiesContext.jsx to a useReducer. Now there, reducer function needs to be pure so we cannot fetch data in
   // the reducer. So all we can do is to make fetch() requests in separate functions and then after data has already bbeen received, we can then dispatch functions to the
   // reducer. So in case of asynchronous code/data, we cannot simply pass dispatch() function into the context value.
   //
