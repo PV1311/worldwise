@@ -17,8 +17,8 @@ const CitiesContext = createContext();
 const iniitalState = {
   cities: [],
   isLoading: false,
-  // currentCity: {},
-  currentCity: null, // Change from {} to null for better null checks
+  currentCity: {},
+  //currentCity: null, // Change from {} to null for better null checks
   error: "", // we also created an error state for which we created case 'rejected' in reducer. We are not going to use this state in our application beacause we are not
   //            doing much error handling, but this was just to make it a bit more complete
 };
