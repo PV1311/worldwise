@@ -9,7 +9,7 @@ import {
 // const BASE_URL = "http://localhost:9000";
 
 const BASE_URL =
-  "https://worldwise-b8f2n-default-rtdb.europe-west1.firebasedatabase.app";
+  "https://worldwise-1-default-rtdb.europe-west1.firebasedatabase.app";
 
 const CitiesContext = createContext();
 
