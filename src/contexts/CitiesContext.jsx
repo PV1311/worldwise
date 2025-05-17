@@ -17,7 +17,8 @@ const CitiesContext = createContext();
 const iniitalState = {
   cities: [],
   isLoading: false,
-  currentCity: {},
+  // currentCity: {},
+  currentCity: null, // Change from {} to null for better null checks
   error: "", // we also created an error state for which we created case 'rejected' in reducer. We are not going to use this state in our application beacause we are not
   //            doing much error handling, but this was just to make it a bit more complete
 };
@@ -190,7 +191,8 @@ function CitiesProvider({ children }) {
   // UPDATED FOR FIREBASE:
   const getCity = useCallback(
     async function getCity(id) {
-      if (id === currentCity.id) return;
+      if (id === currentCity.id || id === currentCity.firebaseId) return;
+
       dispatch({ type: "loading" });
 
       try {
@@ -201,6 +203,11 @@ function CitiesProvider({ children }) {
         const citiesArray = Object.entries(data).map(([firebaseId, city]) => ({
           ...city,
           firebaseId,
+          // Ensure position values are numbers
+          position: {
+            lat: Number(city.position.lat),
+            lng: Number(city.position.lng),
+          },
         }));
 
         // Find city by id (either the application's id or firebaseId)
@@ -218,7 +225,7 @@ function CitiesProvider({ children }) {
         });
       }
     },
-    [currentCity.id]
+    [currentCity.id, currentCity.firebaseId]
   );
 
   // async function createCity(newCity) {
@@ -272,10 +279,14 @@ function CitiesProvider({ children }) {
   async function createCity(newCity) {
     dispatch({ type: "loading" });
     try {
-      // Generate a proper ID if not provided
+      // Ensure position values are numbers, not strings
       const cityWithId = {
         ...newCity,
-        id: newCity.id || `city-${Date.now()}`, // More reliable ID generation
+        id: newCity.id || `city-${Date.now()}`,
+        position: {
+          lat: Number(newCity.position.lat),
+          lng: Number(newCity.position.lng),
+        },
       };
 
       const res = await fetch(`${BASE_URL}/cities.json`, {
@@ -293,7 +304,7 @@ function CitiesProvider({ children }) {
       };
 
       dispatch({ type: "city/created", payload: createdCity });
-      return createdCity; // Return the created city
+      return createdCity;
     } catch (err) {
       dispatch({
         type: "rejected",
@@ -348,7 +359,9 @@ function CitiesProvider({ children }) {
       const res = await fetch(`${BASE_URL}/cities.json`);
       const data = await res.json();
 
-      const keyToDelete = Object.keys(data).find((key) => data[key].id === id);
+      const keyToDelete = Object.keys(data).find(
+        (key) => data[key].id === id || key === id
+      );
 
       if (!keyToDelete) throw new Error("City not found");
 
