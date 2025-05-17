@@ -110,13 +110,16 @@ function CitiesProvider({ children }) {
         const res = await fetch(`${BASE_URL}/cities.json`);
         const data = await res.json();
 
+        // Transform Firebase data into proper format
         const citiesArray = Object.entries(data).map(([firebaseId, city]) => ({
           ...city,
           firebaseId,
+          // Ensure id exists - fallback to firebaseId if not
+          id: city.id || firebaseId,
         }));
 
         dispatch({ type: "cities/loaded", payload: citiesArray });
-      } catch {
+      } catch (err) {
         dispatch({
           type: "rejected",
           payload: "There was an error loading cities...",
@@ -193,19 +196,25 @@ function CitiesProvider({ children }) {
       try {
         const res = await fetch(`${BASE_URL}/cities.json`);
         const data = await res.json();
+
+        // Transform Firebase data into array with both firebaseId and id
         const citiesArray = Object.entries(data).map(([firebaseId, city]) => ({
           ...city,
           firebaseId,
         }));
-        const city = citiesArray.find((city) => city.id === id);
+
+        // Find city by id (either the application's id or firebaseId)
+        const city = citiesArray.find(
+          (city) => city.id === id || city.firebaseId === id
+        );
 
         if (!city) throw new Error("City not found");
 
         dispatch({ type: "city/loaded", payload: city });
-      } catch {
+      } catch (err) {
         dispatch({
           type: "rejected",
-          payload: "There was an error loading the city...",
+          payload: err.message || "There was an error loading the city...",
         });
       }
     },
@@ -263,10 +272,10 @@ function CitiesProvider({ children }) {
   async function createCity(newCity) {
     dispatch({ type: "loading" });
     try {
-      // Generate a unique ID if not provided
+      // Generate a proper ID if not provided
       const cityWithId = {
         ...newCity,
-        id: newCity.id || Date.now().toString(),
+        id: newCity.id || `city-${Date.now()}`, // More reliable ID generation
       };
 
       const res = await fetch(`${BASE_URL}/cities.json`, {
@@ -278,13 +287,19 @@ function CitiesProvider({ children }) {
       });
       const data = await res.json();
 
-      const createdCity = { ...cityWithId, firebaseId: data.name };
+      const createdCity = {
+        ...cityWithId,
+        firebaseId: data.name,
+      };
+
       dispatch({ type: "city/created", payload: createdCity });
-    } catch {
+      return createdCity; // Return the created city
+    } catch (err) {
       dispatch({
         type: "rejected",
         payload: "There was an error creating the city...",
       });
+      throw err;
     }
   }
 
