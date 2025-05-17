@@ -7,8 +7,7 @@ import {
   useCallback,
 } from "react";
 
-const BASE_URL =
-  "https://raw.githubusercontent.com/PV1311/worldwise-data/refs/heads/main";
+const BASE_URL = "http://localhost:9000";
 
 const CitiesContext = createContext();
 
@@ -84,7 +83,7 @@ function CitiesProvider({ children }) {
       dispatch({ type: "loading" });
 
       try {
-        const res = await fetch(`${BASE_URL}/cities.json`);
+        const res = await fetch(`${BASE_URL}/cities`);
         const data = await res.json();
 
         dispatch({ type: "cities/loaded", payload: data });
@@ -140,7 +139,7 @@ function CitiesProvider({ children }) {
       dispatch({ type: "loading" });
 
       try {
-        const res = await fetch(`${BASE_URL}/cities.json/${id}`);
+        const res = await fetch(`${BASE_URL}/cities/${id}`);
         const data = await res.json();
 
         dispatch({ type: "city/loaded", payload: data });
@@ -180,7 +179,7 @@ function CitiesProvider({ children }) {
     dispatch({ type: "loading" });
 
     try {
-      const res = await fetch(`${BASE_URL}/cities.json`, {
+      const res = await fetch(`${BASE_URL}/cities`, {
         method: "POST",
         body: JSON.stringify(newCity),
         headers: {
@@ -221,7 +220,7 @@ function CitiesProvider({ children }) {
     dispatch({ type: "loading" });
 
     try {
-      await fetch(`${BASE_URL}/cities.json/${id}`, {
+      await fetch(`${BASE_URL}/cities/${id}`, {
         method: "DELETE",
       });
 
