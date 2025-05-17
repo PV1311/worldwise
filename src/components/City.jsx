@@ -71,7 +71,7 @@ function City() {
   //   notes: "My favorite city so far!",
   // };
 
-  if (!currentCity || !currentCity.id) return <Spinner />; // Add a check for when currentCity is empty
+  // Change the loading check
 
   const { cityName, emoji, date, notes } = currentCity;
 
@@ -84,7 +84,7 @@ function City() {
   //   </>
   // );
 
-  if (isLoading) return <Spinner />; // here we return a Loading spinner until the City is fetched
+  if (isLoading || !currentCity) return <Spinner />; // Add a check for when currentCity is empty. we return a Loading spinner until the City is fetched
 
   return (
     <div className={styles.city}>
